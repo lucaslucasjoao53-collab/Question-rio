@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carteiras Móveis em Moçambique</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1628;
+    --navy-mid: #122040;
+    --teal: #0d7c6b;
+    --teal-light: #11a892;
+    --gold: #c8982a;
+    --gold-light: #f0ba44;
+    --cream: #f9f5ef;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --white: #ffffff;
+    --border: #e2d9cc;
+    --radius: 14px;
+    --shadow: 0 8px 40px rgba(10,22,40,0.13);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 16px 60px;
+  }
+
+  /* ---- HEADER ---- */
+  .header {
+    width: 100%;
+    background: var(--navy);
+    padding: 22px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0;
+  }
+  .header-logo {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold-light);
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+  }
+  .header-sub {
+    color: rgba(255,255,255,0.45);
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .badge {
+    background: rgba(200,152,42,0.18);
+    border: 1px solid var(--gold);
+    color: var(--gold-light);
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+
+  /* ---- CONTAINER ---- */
+  .container {
+    width: 100%;
+    max-width: 680px;
+  }
+  .intro {
+    background: var(--navy);
+    border-radius: var(--radius);
+    padding: 40px 44px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .intro::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,152,42,0.18), transparent 70%);
+  }
+  .intro-eyebrow {
+    color: var(--gold-light);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .intro h1 {
+    font-family: 'Playfair Display', serif;
+    color: var(--white);
+    font-size: 1.75rem;
+    line-height: 1.3;
+    margin-bottom: 14px;
+  }
+  .intro p {
+    color: rgba(255,255,255,0.58);
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+  .intro-meta {
+    display: flex;
+    gap: 24px;
+    margin-top: 24px;
+  }
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255,255,255,0.5);
+    font-size: 0.8rem;
+  }
+  .meta-item span.dot {
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  /* ---- PROGRESS ---- */
+  .progress-wrap {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 28px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .progress-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .progress-bar-track {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--gold-light));
+    border-radius: 6px;
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+    width: 10%;
+  }
+  .progress-count {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--teal);
+    white-space: nowrap;
+  }
+
+  /* ---- CARD ---- */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px 40px 32px;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+    display: none;
+    animation: slideIn 0.35s ease forwards;
+  }
+  .card.active { display: block; }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .q-number {
+    display: inline-block;
+    background: var(--navy);
+    color: var(--gold-light);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    padding: 3px 12px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+  }
+  .q-text {
+    font-size: 1.12rem;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 26px;
+    color: var(--text);
+  }
+  .conditional-note {
+    display: inline-block;
+    background: #fff8e8;
+    border: 1px solid #f0ba44;
+    color: #856a10;
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+
+  /* ---- OPTIONS ---- */
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .options.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    font-size: 0.93rem;
+    color: var(--text);
+    font-weight: 400;
+  }
+  .option:hover {
+    border-color: var(--teal-light);
+    background: #f0faf8;
+    transform: translateX(3px);
+  }
+  .option.selected {
+    border-color: var(--teal);
+    background: linear-gradient(135deg, #f0faf8, #e6f7f4);
+    color: var(--teal);
+    font-weight: 500;
+  }
+  .option-circle {
+    width: 20px; height: 20px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .option.selected .option-circle {
+    border-color: var(--teal);
+    background: var(--teal);
+  }
+  .option.selected .option-circle::after {
+    content: '';
+    width: 7px; height: 7px;
+    background: white;
+    border-radius: 50%;
+  }
+  /* Multi-select uses square */
+  .multi .option-circle { border-radius: 5px; }
+  .multi .option.selected .option-circle::after {
+    content: '✓';
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  /* ---- BUTTONS ---- */
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+  }
+  .btn {
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+  }
+  .btn-back {
+    background: transparent;
+    color: var(--muted);
+    border: 1.5px solid var(--border);
+  }
+  .btn-back:hover { background: var(--cream); color: var(--text); }
+  .btn-next {
+    background: var(--navy);
+    color: var(--white);
+    padding: 12px 36px;
+  }
+  .btn-next:hover { background: var(--teal); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(13,124,107,0.3); }
+  .btn-submit {
+    background: linear-gradient(135deg, var(--teal), var(--navy));
+    color: var(--white);
+    padding: 14px 40px;
+    font-size: 1rem;
+  }
+  .btn-submit:hover { opacity: 0.92; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(10,22,40,0.3); }
+  .btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none !important; }
+  .skip-btn {
+    font-size: 0.8rem;
+    color: var(--muted);
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    text-decoration: underline;
+    padding: 0;
+  }
+  .skip-btn:hover { color: var(--text); }
+
+  /* ---- THANK YOU ---- */
+  .thankyou {
+    display: none;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 60px 44px;
+    text-align: center;
+    animation: slideIn 0.4s ease forwards;
+    box-shadow: var(--shadow);
+  }
+  .thankyou.active { display: block; }
+  .ty-icon {
+    width: 72px; height: 72px;
+    background: linear-gradient(135deg, var(--teal), var(--navy));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 28px;
+    font-size: 2rem;
+  }
+  .thankyou h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9rem;
+    margin-bottom: 14px;
+    color: var(--navy);
+  }
+  .thankyou p { color: var(--muted); font-size: 0.95rem; line-height: 1.7; max-width: 400px; margin: 0 auto; }
+  .ty-summary {
+    margin-top: 30px;
+    background: var(--cream);
+    border-radius: 10px;
+    padding: 20px 28px;
+    text-align: left;
+  }
+  .ty-summary h4 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+  .summary-item {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+  }
+  .summary-item:last-child { border-bottom: none; }
+  .s-q { color: var(--muted); }
+  .s-a { font-weight: 500; color: var(--text); text-align: right; max-width: 55%; }
+
+  @media (max-width: 600px) {
+    .header { padding: 18px 20px; }
+    .header-logo { font-size: 1.25rem; }
+    .intro, .card, .thankyou { padding: 28px 22px; }
+    .options.grid { grid-template-columns: 1fr; }
+    .intro h1 { font-size: 1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+
+
+<div class="container">
+
+  <div class="intro">
+    <div class="intro-eyebrow">Inquérito 2024</div>
+    <h1>Uso de Carteiras Móveis e Serviços Financeiros Digitais em Moçambique</h1>
+    <p>As suas respostas ajudam-nos a compreender melhor como os moçambicanos utilizam os serviços financeiros digitais. O inquérito é anónimo e demora cerca de 2 minutos.</p>
+    <div class="intro-meta">
+      <div class="meta-item"><span class="dot"></span> 10 perguntas</div>
+      <div class="meta-item"><span class="dot"></span> ~2 minutos</div>
+      <div class="meta-item"><span class="dot"></span> Anónimo</div>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <span class="progress-label">Progresso</span>
+    <div class="progress-bar-track"><div class="progress-bar-fill" id="progress-fill"></div></div>
+    <span class="progress-count" id="progress-count">0 / 10</span>
+  </div>
+
+  <!-- Q1 -->
+  <div class="card active" data-q="1">
+    <span class="q-number">Pergunta 1 de 10</span>
+    <div class="q-text">Qual é a sua idade?</div>
+    <div class="options">
+      <label class="option" onclick="select(this,'q1','single')"><span class="option-circle"></span> Menos de 18 anos</label>
+      <label class="option" onclick="select(this,'q1','single')"><span class="option-circle"></span> 18 – 24 anos</label>
+      <label class="option" onclick="select(this,'q1','single')"><span class="option-circle"></span> 25 – 34 anos</label>
+      <label class="option" onclick="select(this,'q1','single')"><span class="option-circle"></span> 35 – 44 anos</label>
+      <label class="option" onclick="select(this,'q1','single')"><span class="option-circle"></span> 45 anos ou mais</label>
+    </div>
+    <div class="actions">
+      <span></span>
+      <button class="btn btn-next" onclick="next(1)">Próxima →</button>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="card" data-q="2">
+    <span class="q-number">Pergunta 2 de 10</span>
+    <div class="q-text">Qual é a sua situação ocupacional?</div>
+    <div class="options">
+      <label class="option" onclick="select(this,'q2','single')"><span class="option-circle"></span> Estudante</label>
+      <label class="option" onclick="select(this,'q2','single')"><span class="option-circle"></span> Empregado(a)</label>
+      <label class="option" onclick="select(this,'q2','single')"><span class="option-circle"></span> Trabalha por conta própria</label>
+      <label class="option" onclick="select(this,'q2','single')"><span class="option-circle"></span> Desempregado(a)</label>
+      <label class="option" onclick="select(this,'q2','single')"><span class="option-circle"></span> Outro</label>
+    </div>
+    <div class="actions">
+      <button class="btn btn-back" onclick="back(2)">← Anterior</button>
+      <button class="btn btn-next" onclick="next(2)">Próxima →</button>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="card" data-q="3">
+    <span class="q-number">Pergunta 3 de 10</span>
+    <div class="q-text">Quais carteiras móveis utiliza? <small style="color:var(--muted);font-size:0.78rem;">(pode seleccionar várias)</small></div>
+    <div class="options multi">
+      <label class="option" onclick="select(this,'q3','multi')"><span class="option-circle"></span> M-Pesa</label>
+      <label class="option" onclick="select(this,'q3','multi')"><span class="option-circle"></span> e-Mola</label>
+      <label class="option" onclick="select(this,'q3','multi')"><span class="option-circle"></span> mKesh</label>
+      <label class="option" onclick="select(this,'q3','multi')"><span class="option-circle"></span> Outra</label>
+      <label class="option" onclick="select(this,'q3','multi')"><span class="option-circle"></span> Nenhuma</label>
+    </div>
+    <div class="actions">
+      <button class="btn btn-back" onclick="back(3)">← Anterior</button>
+      <button class="btn btn-next" onclick="next(3)">Próxima →</button>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="card" data-q="4">
+    <span class="q-number">Pergunta 4 de 10</span>
+    <div class="q-text">Com que frequência utiliza carteiras móveis?</div>
+    <div class="options">
+      <label class="option" onclick="select(this,'q4','single')"><span class="option-circle"></span> Diariamente</label>
+      <label class="option" onclick="select(this,'q4','single')"><span class="option-circle"></span> Semanalmente</label>
+      <label class="option" onclick="select(this,'q4','single')"><span class="option-circle"></span> Raramente</label>
+      <label class="option" onclick="select(this,'q4','single')"><span class="option-circle"></span> Nunca</label>
+    </div>
+    <div class="actions">
+      <button class="btn btn-back" onclick="back(4)">← Anterior</button>
+      <button class="btn btn-next" onclick="next(4)">Próxima →</button>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="card" data-q="5">
+    <span class="q-number">Pergunta 5 de 10</span>
+    <div class="q-text">Já utilizou o Txuna?</div>
+    <div class="options">
+      <label class="option" onclick="select(this,'q5','single')"><span class="option-circle"></span> Sim</label>
+      <label class="option" onclick="select(this,'q5','single')"><span class="option-circle"></span> Não</label>
+    </div>
+    <div class="actions">
+      <button class="btn btn-back" onclick="back(5)">← Anterior</button>
+      <button class="btn btn-next" onclick="next(5)">Próxima →</button>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="card" data-q="6">
+    <span class="q-number">Pergunta 6 de 10</span>
+    <div class="conditional-note">⚠ Apenas se respondeu "Sim" na pergunta anterior</div>
+    <div class="q-text">Para que utiliza o Txuna? <small style="color:var(--muted);font-size:0.78rem;">(pode seleccionar várias)</small></div>
+    <div class="options multi">
+      <label class="option" onclick="select(this,'q6','multi')"><span class="option-circle"></span> Recarga</label>
+      <label class="option" onclick="select(this,'q6','multi')"><span class="option-circle"></span> Dados (Internet)</label>
+      <label class="option" onclick="select(this,'q6','multi')"><span class="option-circle"></span> Consumo</label>
+      <label class="option" onclick="select(this,'q6','multi')"><span class="option-circle"></span> Emergência</label>
+      <label class="option" onclick="select(this,'q6','multi')"><span class="option-circle"></span> Outro</label>
+    </div>
+    <div class="actions">
+      <button class="btn btn-back" onclick="back(6)">← Anterior</button>
+      <div style="display:flex;gap:12px;align-items:center;">
+        <button class="skip-btn" onclick="skip(6)">Não se aplica</button>
+        <button class="btn btn-next" onclick="next(6)">Próxima →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="card" data-q="7">
+    <span class="q-number">Pergunta 7 de 10</span>
+    <div class="q-text">Conhece os seguros disponíveis nas carteiras móveis?</div>
+    <div class="options">
+      <label class="option" onclick="select(this,'q7','single')"><span class="option-circle"></span> Sim, conheço</label>
+      <label class="option" onclick="select(this,'q7','single')"><span class="option-circle"></span> Não conheço</label>
+    </div>
+    <div class="actions">
+      <button class="btn btn-back" onclick="back(7)">← Anterior</button>
+      <button class="btn btn-next" onclick="next(7)">Próxima →</button>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="card" data-q="8">
+    <span class="q-number">Pergunta 8 de 10</span>
+    <div class="q-text">Já utilizou algum seguro através de carteiras móveis?</div>
+    <div class="options">
+      <label class="option" onclick="select(this,'q8','single')"><span class="option-circle"></span> Sim</label>
+      <label class="option" onclick="select(this,'q8','single')"><span class="option-circle"></span> Não</label>
+    </div>
+    <div class="actions">
+      <button class="btn btn-back" onclick="back(8)">← Anterior</button>
+      <button class="btn btn-next" onclick="next(8)">Próxima →</button>
+    </div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="card" data-q="9">
+    <span class="q-number">Pergunta 9 de 10</span>
+    <div class="conditional-note">⚠ Apenas se respondeu "Não" na pergunta anterior</div>
+    <div class="q-text">Por que razão nunca utilizou seguros nas carteiras móveis?</div>
+    <div class="options">
+      <label class="option" onclick="select(this,'q9','single')"><span class="option-circle"></span> Não conheço este serviço</label>
+      <label class="option" onclick="select(this,'q9','single')"><span class="option-circle"></span> Não confio no serviço</label>
+      <label class="option" onclick="select(this,'q9','single')"><span class="option-circle"></span> Não preciso</label>
+      <label class="option" onclick="select(this,'q9','single')"><span class="option-circle"></span> É demasiado caro</label>
+      <label class="option" onclick="select(this,'q9','single')"><span class="option-circle"></span> Outro motivo</label>
+    </div>
+    <div class="actions">
+      <button class="btn btn-back" onclick="back(9)">← Anterior</button>
+      <div style="display:flex;gap:12px;align-items:center;">
+        <button class="skip-btn" onclick="skip(9)">Não se aplica</button>
+        <button class="btn btn-next" onclick="next(9)">Próxima →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="card" data-q="10">
+    <span class="q-number">Pergunta 10 de 10</span>
+    <div class="q-text">Qual a importância das carteiras móveis para a sua vida financeira?</div>
+    <div class="options">
+      <label class="option" onclick="select(this,'q10','single')"><span class="option-circle"></span> Muito importante</label>
+      <label class="option" onclick="select(this,'q10','single')"><span class="option-circle"></span> Importante</label>
+      <label class="option" onclick="select(this,'q10','single')"><span class="option-circle"></span> Pouco importante</label>
+      <label class="option" onclick="select(this,'q10','single')"><span class="option-circle"></span> Nenhuma importância</label>
+    </div>
+    <div class="actions">
+      <button class="btn btn-back" onclick="back(10)">← Anterior</button>
+      <button class="btn btn-submit" onclick="submit()">✓ Submeter</button>
+    </div>
+  </div>
+
+  <!-- THANK YOU -->
+  <div class="thankyou" id="thankyou">
+    <div class="ty-icon">✓</div>
+    <h2>Obrigado pela sua participação!</h2>
+    <p>As suas respostas foram registadas com sucesso. A sua contribuição é fundamental para melhorarmos os serviços financeiros digitais em Moçambique.</p>
+    <div class="ty-summary" id="ty-summary">
+      <h4>Resumo das suas respostas</h4>
+      <div id="summary-list"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const answers = {};
+  const qLabels = {
+    q1: 'Idade', q2: 'Situação ocupacional',
+    q3: 'Carteiras utilizadas', q4: 'Frequência de uso',
+    q5: 'Usou Txuna?', q6: 'Uso do Txuna',
+    q7: 'Conhece seguros?', q8: 'Usou seguro?',
+    q9: 'Razão por não usar', q10: 'Importância das carteiras'
+  };
+  let current = 1;
+
+  function select(el, key, mode) {
+    if (mode === 'single') {
+      el.closest('.options').querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      answers[key] = el.textContent.trim();
+    } else {
+      el.classList.toggle('selected');
+      const sel = el.closest('.options').querySelectorAll('.option.selected');
+      answers[key] = Array.from(sel).map(o => o.textContent.trim()).join(', ');
+    }
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const answered = Object.keys(answers).filter(k => answers[k]).length;
+    const pct = Math.round((answered / 10) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-count').textContent = answered + ' / 10';
+  }
+
+  function showCard(n) {
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+    const target = document.querySelector(`.card[data-q="${n}"]`);
+    if (target) { target.classList.add('active'); current = n; }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function next(n) {
+    if (n < 10) showCard(n + 1);
+  }
+
+  function back(n) {
+    if (n > 1) showCard(n - 1);
+  }
+
+  function skip(n) {
+    answers['q' + n] = '—';
+    updateProgress();
+    if (n < 10) showCard(n + 1);
+  }
+
+  async function submit() {
+    const formData = new FormData();
+    for (let i = 1; i <= 10; i++) {
+      const key = 'q' + i;
+      formData.append(qLabels[key], answers[key] || 'Nao respondido');
+    }
+    try {
+      await fetch('https://formspree.io/f/xeenzozq', {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+    } catch(e) {}
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+    const ty = document.getElementById('thankyou');
+    ty.classList.add('active');
+    buildSummary();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function buildSummary() {
+    const list = document.getElementById('summary-list');
+    list.innerHTML = '';
+    for (let i = 1; i <= 10; i++) {
+      const key = 'q' + i;
+      const val = answers[key] || '<em style="color:var(--muted)">Não respondido</em>';
+      const div = document.createElement('div');
+      div.className = 'summary-item';
+      div.innerHTML = `<span class="s-q">${qLabels[key]}</span><span class="s-a">${val}</span>`;
+      list.appendChild(div);
+    }
+  }
+</script>
+</body>
+</html>
